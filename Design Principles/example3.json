@@ -1,0 +1,17 @@
+[
+    {
+        "type": "coffee",
+        "name": "Espresso",
+        "price": 2.5
+    },
+    {
+        "type": "pastry",
+        "name": "Croissant",
+        "price": 3.0
+    },
+    {
+        "type": "sandwich",
+        "name": "Turkey Club",
+        "price": 7.0
+    }
+]
