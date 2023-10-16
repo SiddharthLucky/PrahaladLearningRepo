@@ -1,0 +1,106 @@
+# Define a base class for a Question
+class Question:
+    def __init__(self, question_text, options, answer):
+        # Initialize the question, options, and answer attributes
+        self.question_text = question_text  # Stores the question text
+        self.options = options  # Stores a list of answer options
+        self.answer = answer  # Stores the correct answer
+
+    def display_question(self):
+        # Display the question and answer options
+        print(self.question_text)
+        for idx, option in enumerate(self.options):
+            print(f"{idx + 1}. {option}")
+
+# Create subclasses for specific question categories (Sport and Math)
+class SportQuestion(Question):
+    def display_question(self):
+        # Display a sport category question
+        super().display_question()  # Call the base class display_question method
+        print("Category: Sport")
+
+class MathQuestion(Question):
+    def display_question(self):
+        # Display a math category question
+        super().display_question()  # Call the base class display_question method
+        print("Category: Math")
+
+# Define a Quiz class to manage a set of questions
+class Quiz:
+    def __init__(self, quiz_data):
+        # Initialize the Quiz with a set of quiz data (questions and answers)
+        self.quiz_data = quiz_data
+
+    def get_question(self, category, question_number):
+        # Retrieve a specific question based on category and question number
+        category_data = self.quiz_data.get(category, None)  # Get data for the specified category
+        if category_data:
+            question_data = category_data.get(f'q{question_number}', None)  # Get data for the specified question
+            if question_data:
+                # Create a SportQuestion or MathQuestion object based on the category
+                return SportQuestion(question_data['question'], question_data['options'], question_data['answer']) if category == 'sport' else MathQuestion(question_data['question'], question_data['options'], question_data['answer'])
+        return None
+
+    def is_answer_correct(self, category, question_number, user_answer):
+        # Check if the user's answer is correct for a specific question
+        question = self.get_question(category, question_number)  # Get the specified question
+        if question:
+            return user_answer == question.answer  # Compare the user's answer to the correct answer
+        return False
+
+# Define sample quiz data in JSON format
+quiz_data = {
+    "sport": {
+        "q1": {
+            "question": "Which one is the correct team name in NBA?",
+            "options": [
+                "New York Bulls",
+                "Los Angeles Kings",
+                "Golden State Warriros",
+                "Houston Rockets"
+            ],
+            "answer": "Houston Rockets"
+        }
+    },
+    "maths": {
+        "q1": {
+            "question": "5 + 7 = ?",
+            "options": [
+                "10",
+                "11",
+                "12",
+                "13"
+            ],
+            "answer": "12"
+        },
+        "q2": {
+            "question": "12 - 8 = ?",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "answer": "4"
+        }
+    }
+}
+
+# Create an instance of the Quiz class with the sample quiz data
+quiz = Quiz(quiz_data)
+
+# Example usage:
+category = "sport"
+question_number = 1
+question = quiz.get_question(category, question_number)  # Get a specific question
+if question:
+    question.display_question()  # Display the question and answer options
+
+    user_answer = input("Enter your answer (1/2/3/4): ")  # Prompt the user for an answer
+    if quiz.is_answer_correct(category, question_number, question.options[int(user_answer) - 1]):
+        # Check if the user's answer is correct
+        print("Correct answer!")
+    else:
+        print("Incorrect answer. The correct answer is:", question.answer)  # Provide feedback on the correctness of the answer
+else:
+    print("Invalid category or question number.")  # Handle the case where the requested question doesn't exist.

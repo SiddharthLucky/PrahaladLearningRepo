@@ -1,0 +1,17 @@
+[
+    {
+        "type": "departmental",
+        "name": "soap",
+        "price": 100.0
+    },
+    {
+        "type": "pastry",
+        "name": "blueberry",
+        "price": 55.0
+    },
+    {
+        "type": "sandwich",
+        "name": "Turkey Club",
+        "price": 7.0
+    }
+]
